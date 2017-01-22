@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-class people{
+class people {
 public:
     int hh, mm, ss, time;
     people(int hh, int mm, int ss, int time) :hh(hh), mm(mm), ss(ss), time(time) {};
@@ -32,6 +32,9 @@ public:
         }
         return false;
     }
+    bool operator>(const people& a) {
+        return !(*this < a || *this == a);
+    }
     people& operator += (const int& a) {
         mm += a;
         if (mm >= 60) {
@@ -40,14 +43,7 @@ public:
         }
         return *this;
     }
-    people& operator = (const people& a) {
-        hh = a.hh;
-        mm = a.mm;
-        ss = a.ss;
-        time = a.time;
-        return *this;
-    }
-    int& operator - (const people& a) {
+    int operator - (const people& a) {
         int sum = 0;
         sum += (hh - a.hh) * 60 * 60;
         sum += (mm - a.mm) * 60;
@@ -79,12 +75,12 @@ int main() {
             if (curTime[j] < min) {
                 min = curTime[j];
                 index = j;
-            }           
+            }
         }
         if (curTime[index] < p[i]) {
             curTime[index] = p[i];
         }
-        if (!(curTime[index] < people(17, 0, 0, 0) || curTime[index] == people(17, 0, 0, 0))) {
+        if (p[i] > people(17, 0, 0, 0)) {
             break;
         }
         waitTime += curTime[index] - p[i];
@@ -98,6 +94,6 @@ int main() {
     else {
         printf("0.0");
     }
-    
+
     return 0;
 }
